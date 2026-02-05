@@ -11,7 +11,7 @@ ENV KC_METRICS_ENABLED=true
 ENV KC_DB=postgres
 
 # Copy custom theme
-COPY themes/easychamp /opt/keycloak/themes/easychamp
+COPY docker/themes/easychamp /opt/keycloak/themes/easychamp
 
 # Build optimized Keycloak
 RUN /opt/keycloak/bin/kc.sh build
