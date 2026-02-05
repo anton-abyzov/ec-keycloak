@@ -1,53 +1,621 @@
-/* EasyChamp Keycloak Theme */
+/**
+ * EasyChamp Keycloak Theme
+ * Matching IS4 (IdentityServer4) production styling
+ *
+ * Primary Color: #6C5DD3 (Purple)
+ * Background: #F3F6FA (Light blue-gray)
+ * Font: Inter (Google Fonts)
+ */
 
-:root {
-  --ec-primary: #2563eb;
-  --ec-primary-dark: #1d4ed8;
-  --ec-secondary: #64748b;
-  --ec-success: #22c55e;
-  --ec-background: #f8fafc;
-  --ec-text: #1e293b;
+/* ============================================================================
+   FONTS
+   ============================================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* Custom font for headings (optional - fallback to Inter if not available) */
+@font-face {
+  font-family: "Gilroy-ExtraBold";
+  src: url("https://minio.easychamp.com/sportchamp-prod/Gilroy-Extrabold_9d1eb38c-75c7-4626-bf2a-9706b64bd1fa.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Login page styling */
+/* ============================================================================
+   CSS VARIABLES
+   ============================================================================ */
+:root {
+  /* Primary colors */
+  --ec-primary: #6C5DD3;
+  --ec-primary-dark: #5A4BC4;
+  --ec-primary-light: rgba(108, 93, 211, 0.3);
+  --ec-primary-shadow: rgba(108, 93, 211, 0.3);
+  --ec-primary-shadow-hover: rgba(108, 93, 211, 0.4);
+
+  /* Background colors */
+  --ec-background: #F3F6FA;
+  --ec-card-bg: #FFFFFF;
+  --ec-card-border: #E1E4EC;
+  --ec-input-bg: #EEF1F5;
+  --ec-input-bg-focus: #E8EBF0;
+  --ec-input-border-change: #DAD7F1;
+
+  /* Text colors */
+  --ec-text-primary: #373947;
+  --ec-text-secondary: #484B5F;
+  --ec-text-tertiary: #8A91A5;
+  --ec-text-quaternary: #ADB6C2;
+
+  /* Link colors */
+  --ec-link: #0A8FEF;
+  --ec-link-alt: #6C5DD3;
+
+  /* Border colors */
+  --ec-border: #D2D6DF;
+
+  /* Status colors */
+  --ec-error: #dc3545;
+  --ec-success: #22c55e;
+
+  /* Dimensions */
+  --ec-input-height: 3.5rem;
+  --ec-button-height: 3.5rem;
+  --ec-border-radius: 15px;
+  --ec-border-radius-lg: 16px;
+  --ec-border-radius-card: 20px;
+  --ec-card-padding: 40px 70px;
+  --ec-card-max-width: 500px;
+}
+
+/* ============================================================================
+   BASE STYLES
+   ============================================================================ */
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body.login-pf,
 .login-pf body {
-  background: linear-gradient(135deg, var(--ec-background) 0%, #e2e8f0 100%);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 500;
+  background-color: var(--ec-background) !important;
+  background-image: none !important;
+  margin-bottom: 60px;
+}
+
+/* ============================================================================
+   CONTAINER / LAYOUT
+   ============================================================================ */
+.login-pf .container-fluid {
+  max-width: var(--ec-card-max-width);
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+/* ============================================================================
+   HEADER / LOGO
+   ============================================================================ */
+#kc-header {
+  padding: 20px 0 30px 0;
 }
 
 #kc-header-wrapper {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--ec-primary);
+  font-family: "Gilroy-ExtraBold", "Inter", sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--ec-text-primary);
+  line-height: 39px;
   text-align: center;
-  padding: 20px 0;
 }
 
-.card-pf {
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+/* ============================================================================
+   CARD / FORM CONTAINER
+   ============================================================================ */
+.login-pf .card-pf,
+#kc-form {
+  border-radius: var(--ec-border-radius-card);
+  border: 1px solid var(--ec-card-border);
+  background-color: var(--ec-card-bg);
+  box-shadow: none;
+  overflow: hidden;
 }
 
-#kc-form-login .pf-c-button.pf-m-primary {
-  background-color: var(--ec-primary);
+#kc-form-wrapper {
+  padding: var(--ec-card-padding);
+  text-align: center;
+}
+
+/* Page title inside card */
+#kc-page-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--ec-text-primary);
+  line-height: 39px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* ============================================================================
+   FORM GROUPS / LABELS
+   ============================================================================ */
+.form-group,
+.pf-c-form__group {
+  margin-top: 25px;
+}
+
+.form-group:first-child {
+  margin-top: 0;
+}
+
+label,
+.pf-c-form__label-text {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--ec-text-secondary);
+  text-align: left;
+}
+
+/* ============================================================================
+   INPUT FIELDS
+   ============================================================================ */
+input.pf-c-form-control,
+input.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  height: var(--ec-input-height);
+  background-color: var(--ec-input-bg);
+  border: none;
+  border-radius: var(--ec-border-radius);
+  padding: 0 25px;
+  color: var(--ec-text-primary);
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px 0 5px 0;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+input.pf-c-form-control::placeholder,
+input.form-control::placeholder,
+input::placeholder {
+  color: var(--ec-text-tertiary);
+  font-weight: 400;
+  opacity: 1;
+}
+
+input.pf-c-form-control:focus,
+input.form-control:focus,
+input:focus {
+  outline: none;
+  background: var(--ec-input-bg-focus);
+  border: 2px solid var(--ec-primary);
+  box-shadow: none;
+}
+
+input.pf-c-form-control:focus::placeholder,
+input.form-control:focus::placeholder {
+  opacity: 0.7;
+}
+
+/* Input with value (changed state) */
+input.pf-c-form-control:not(:placeholder-shown),
+input.form-control:not(:placeholder-shown) {
+  background-color: var(--ec-card-bg);
+  border: 1.5px solid var(--ec-input-border-change);
+}
+
+/* ============================================================================
+   PRIMARY BUTTON (Login/Submit)
+   ============================================================================ */
+.pf-c-button.pf-m-primary,
+input[type="submit"],
+button.btn-primary,
+#kc-login,
+#kc-register {
+  width: 100%;
+  height: var(--ec-button-height);
+  background-color: var(--ec-primary) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: var(--ec-border-radius-lg);
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 11px 20px var(--ec-primary-shadow);
+  margin-top: 25px;
+}
+
+.pf-c-button.pf-m-primary:hover,
+input[type="submit"]:hover,
+button.btn-primary:hover,
+#kc-login:hover,
+#kc-register:hover {
+  background-color: var(--ec-primary-dark) !important;
+  box-shadow: 0 15px 25px var(--ec-primary-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.pf-c-button.pf-m-primary:active,
+input[type="submit"]:active,
+#kc-login:active,
+#kc-register:active {
+  transform: translateY(0px);
+  box-shadow: 0 8px 15px var(--ec-primary-shadow);
+}
+
+.pf-c-button.pf-m-primary:disabled,
+input[type="submit"]:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ============================================================================
+   SECONDARY BUTTON
+   ============================================================================ */
+.pf-c-button.pf-m-link,
+.pf-c-button.pf-m-secondary,
+button.btn-default {
+  background-color: transparent;
+  color: var(--ec-primary);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-border-radius-lg);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pf-c-button.pf-m-link:hover,
+.pf-c-button.pf-m-secondary:hover {
+  background-color: var(--ec-card-bg);
   border-color: var(--ec-primary);
 }
 
-#kc-form-login .pf-c-button.pf-m-primary:hover {
-  background-color: var(--ec-primary-dark);
-  border-color: var(--ec-primary-dark);
+/* ============================================================================
+   SOCIAL LOGIN BUTTONS (Google, Facebook)
+   ============================================================================ */
+.kc-social-links {
+  margin-top: 30px;
 }
 
-/* Social login buttons */
-.kc-social-links {
+.kc-social-section-text {
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+  margin: 15px 0;
+  color: var(--ec-text-tertiary);
+}
+
+#social-providers a,
+.kc-social-provider-link {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 30px;
+  margin: 15px 0 5px 0;
+  height: var(--ec-button-height);
+  background-color: var(--ec-card-bg);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-border-radius-lg);
+  transition: all 0.2s ease;
+  color: #696974;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+#social-providers a:hover,
+.kc-social-provider-link:hover {
+  background-color: #F8F9FB;
+  border-color: var(--ec-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 15px rgba(108, 93, 211, 0.1);
+  text-decoration: none;
+}
+
+#social-providers a:active,
+.kc-social-provider-link:active {
+  transform: translateY(0px);
+}
+
+.kc-social-provider-logo,
+.kc-social-icon {
+  margin-right: 10px;
+  height: 24px;
+  width: 24px;
+}
+
+/* Google specific styling */
+#social-google .kc-social-icon-text {
+  color: #696974;
+}
+
+/* Facebook specific styling */
+#social-facebook .kc-social-icon-text {
+  color: #696974;
+}
+
+/* ============================================================================
+   LINKS
+   ============================================================================ */
+a {
+  color: var(--ec-link);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--ec-primary);
+  text-decoration: none;
+}
+
+/* Primary reference links */
+.kc-form-options a,
+#kc-registration a,
+.ref {
+  color: var(--ec-link-alt);
+}
+
+/* ============================================================================
+   INFO TEXT / MESSAGES
+   ============================================================================ */
+#kc-info-message,
+.kc-feedback-text {
+  text-align: center;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ec-text-tertiary);
+  margin-bottom: 30px;
+}
+
+/* ============================================================================
+   FORM OPTIONS (Remember me, Forgot password)
+   ============================================================================ */
+.kc-form-options {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kc-form-options label {
+  font-size: 14px;
+  color: var(--ec-text-tertiary);
+}
+
+.kc-form-options a {
+  font-size: 14px;
+}
+
+/* ============================================================================
+   REGISTRATION / LOGIN SWITCH
+   ============================================================================ */
+#kc-registration,
+#kc-info {
+  text-align: center;
+  padding: 30px 0;
+  color: var(--ec-text-tertiary);
+  font-size: 14px;
+}
+
+#kc-registration a,
+#kc-info a {
+  color: var(--ec-link-alt);
+  font-weight: 500;
+}
+
+/* ============================================================================
+   ERROR MESSAGES
+   ============================================================================ */
+.alert.alert-error,
+.pf-c-alert.pf-m-danger,
+#kc-error-message {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--ec-border-radius);
+  color: var(--ec-error);
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert.alert-success,
+.pf-c-alert.pf-m-success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--ec-border-radius);
+  color: var(--ec-success);
+  padding: 15px 20px;
+  margin-bottom: 20px;
+}
+
+/* Input error state */
+input.pf-c-form-control[aria-invalid="true"],
+input.form-control.is-invalid {
+  border: 2px solid var(--ec-error) !important;
+  background-color: #fef2f2;
+}
+
+.pf-c-form__helper-text--error,
+.invalid-feedback {
+  color: var(--ec-error);
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: left;
+}
+
+/* ============================================================================
+   CHECKBOX STYLING
+   ============================================================================ */
+.pf-c-check,
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.pf-c-check__input,
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ec-primary);
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.pf-c-check__label,
+.checkbox label {
+  font-size: 14px;
+  color: var(--ec-text-tertiary);
+  cursor: pointer;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+#kc-info-wrapper {
+  text-align: center;
+  color: var(--ec-text-quaternary);
+  font-size: 12px;
+  padding: 20px 0;
+}
+
+/* ============================================================================
+   PASSWORD VISIBILITY TOGGLE
+   ============================================================================ */
+.pf-c-form-control__toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--ec-text-tertiary);
+}
+
+.pf-c-form-control__toggle:hover {
+  color: var(--ec-primary);
+}
+
+/* ============================================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================================ */
+@media (max-width: 576px) {
+  #kc-form-wrapper {
+    padding: 30px 25px;
+  }
+
+  :root {
+    --ec-card-max-width: 100%;
+  }
+
+  .login-pf .container-fluid {
+    padding: 15px;
+  }
+
+  #kc-header-wrapper,
+  #kc-page-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+
+  .kc-form-options {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* ============================================================================
+   OTP / 2FA STYLING
+   ============================================================================ */
+.otp-code-input input {
+  width: 45px !important;
+  height: 55px !important;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin: 0 5px;
+}
+
+/* ============================================================================
+   TERMS OF SERVICE
+   ============================================================================ */
+#kc-terms-text {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: var(--ec-input-bg);
+  border-radius: var(--ec-border-radius);
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: var(--ec-text-secondary);
+}
+
+/* ============================================================================
+   UPDATE PASSWORD / FORCE PASSWORD CHANGE
+   ============================================================================ */
+#kc-update-password-form .form-group {
   margin-top: 20px;
 }
 
-.kc-social-provider-logo {
-  margin-right: 8px;
+.kc-hint {
+  font-size: 12px;
+  color: var(--ec-text-tertiary);
+  margin-top: 8px;
+  text-align: left;
 }
 
-/* Footer */
-#kc-info-wrapper {
-  text-align: center;
-  color: var(--ec-secondary);
+/* ============================================================================
+   LOCALE SELECTOR
+   ============================================================================ */
+#kc-locale ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#kc-locale ul li a {
+  padding: 10px 15px;
+  display: block;
+  color: var(--ec-text-secondary);
+}
+
+#kc-locale ul li a:hover {
+  background-color: var(--ec-input-bg);
+}
+
+/* ============================================================================
+   PATTERNFLY OVERRIDES (Keycloak 26+ uses PatternFly 5)
+   ============================================================================ */
+
+/* Remove default PatternFly backgrounds */
+.pf-c-login__main {
+  background: transparent !important;
+}
+
+.pf-c-login {
+  background: var(--ec-background) !important;
+}
+
+/* Override PatternFly form control focus */
+.pf-c-form-control:focus {
+  --pf-c-form-control--focus--BorderBottomColor: var(--ec-primary) !important;
+  box-shadow: none !important;
+}
+
+/* Override PatternFly button colors */
+.pf-c-button {
+  --pf-c-button--m-primary--BackgroundColor: var(--ec-primary) !important;
+  --pf-c-button--m-primary--hover--BackgroundColor: var(--ec-primary-dark) !important;
 }
