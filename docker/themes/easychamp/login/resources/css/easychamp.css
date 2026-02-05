@@ -1,0 +1,53 @@
+/* EasyChamp Keycloak Theme */
+
+:root {
+  --ec-primary: #2563eb;
+  --ec-primary-dark: #1d4ed8;
+  --ec-secondary: #64748b;
+  --ec-success: #22c55e;
+  --ec-background: #f8fafc;
+  --ec-text: #1e293b;
+}
+
+/* Login page styling */
+.login-pf body {
+  background: linear-gradient(135deg, var(--ec-background) 0%, #e2e8f0 100%);
+}
+
+#kc-header-wrapper {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ec-primary);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.card-pf {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#kc-form-login .pf-c-button.pf-m-primary {
+  background-color: var(--ec-primary);
+  border-color: var(--ec-primary);
+}
+
+#kc-form-login .pf-c-button.pf-m-primary:hover {
+  background-color: var(--ec-primary-dark);
+  border-color: var(--ec-primary-dark);
+}
+
+/* Social login buttons */
+.kc-social-links {
+  margin-top: 20px;
+}
+
+.kc-social-provider-logo {
+  margin-right: 8px;
+}
+
+/* Footer */
+#kc-info-wrapper {
+  text-align: center;
+  color: var(--ec-secondary);
+}
