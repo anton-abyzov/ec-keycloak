@@ -173,14 +173,11 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
 
     /**
      * Migrate password to Keycloak's native format after successful validation.
+     * Uses Keycloak 26+ API - credentials are accessed via user.credentialManager()
      */
     private void migratePassword(RealmModel realm, UserModel user, String plainPassword) {
-        // Use Keycloak's built-in password credential manager
-        session.userCredentialManager().updateCredential(
-            realm,
-            user,
-            UserCredentialModel.password(plainPassword, false)
-        );
+        // In Keycloak 26+, use user.credentialManager() instead of session.userCredentialManager()
+        user.credentialManager().updateCredential(UserCredentialModel.password(plainPassword, false));
     }
 
     // Required CredentialProvider methods
