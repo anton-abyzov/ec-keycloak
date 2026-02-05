@@ -1,9 +1,9 @@
-# Production values for ec-keycloak
+# Production values for ec-keycloak - using auth.easychamp.com subdomain
 
 replicaCount: 2
 
 image:
-  tag: "latest"  # Override with specific version in CI/CD
+  tag: "latest"
 
 keycloak:
   database:
@@ -11,27 +11,21 @@ keycloak:
     port: 5432
     database: keycloak
 
-  # Production proxy settings
   proxy:
     mode: edge
     headers: xforwarded
 
-  # Extra environment variables for production
+  # Extra environment variables for production (subdomain setup - no path prefix needed)
   extraEnv:
     - name: KC_HOSTNAME
-      value: "easychamp.com"
-    - name: KC_HOSTNAME_PATH
-      value: "/ec-keycloak"
+      value: "auth.easychamp.com"
     - name: KC_HOSTNAME_STRICT
       value: "false"
-    - name: KC_HTTP_RELATIVE_PATH
-      value: "/ec-keycloak"
     - name: KC_LOG_LEVEL
       value: "INFO"
     - name: JAVA_OPTS_APPEND
       value: "-Djgroups.dns.query=ec-keycloak-headless.ec-keycloak.svc.cluster.local"
 
-# Production resource limits
 resources:
   requests:
     cpu: 500m
@@ -40,7 +34,7 @@ resources:
     cpu: 2
     memory: 2Gi
 
-# Ingress with TLS
+# Ingress with TLS - using auth.easychamp.com subdomain
 ingress:
   enabled: true
   className: nginx
@@ -50,23 +44,21 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: easychamp.com
+    - host: auth.easychamp.com
       paths:
-        - path: /ec-keycloak
+        - path: /
           pathType: Prefix
   tls:
-    - secretName: easychamp-tls
+    - secretName: cloudflare-tls-secret
       hosts:
-        - easychamp.com
+        - auth.easychamp.com
 
-# Production autoscaling
 autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 70
 
-# Pod disruption budget for HA
 podDisruptionBudget:
   enabled: true
   minAvailable: 1

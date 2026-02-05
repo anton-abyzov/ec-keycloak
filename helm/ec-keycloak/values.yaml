@@ -76,7 +76,7 @@ service:
   port: 8080
   annotations: {}
 
-# Ingress configuration
+# Ingress configuration - using auth.easychamp.com subdomain
 ingress:
   enabled: true
   className: nginx
@@ -85,14 +85,14 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
   hosts:
-    - host: easychamp.com
+    - host: auth.easychamp.com
       paths:
-        - path: /ec-keycloak
+        - path: /
           pathType: Prefix
   tls:
-    - secretName: easychamp-tls
+    - secretName: cloudflare-tls-secret
       hosts:
-        - easychamp.com
+        - auth.easychamp.com
 
 # Resource limits
 resources:
