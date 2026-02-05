@@ -1,0 +1,158 @@
+# Default values for ec-keycloak
+# This is a YAML-formatted file.
+
+# Replica count - minimum 2 for HA
+replicaCount: 2
+
+image:
+  repository: ghcr.io/anton-abyzov/ec-keycloak
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets:
+  - name: ghcr-secret
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Service account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+
+# Keycloak configuration
+keycloak:
+  # Database settings
+  database:
+    vendor: postgres
+    host: ""  # Set via secret or values-prod.yaml
+    port: 5432
+    database: keycloak
+    existingSecret: keycloak-db-credentials
+    secretKeys:
+      username: username
+      password: password
+
+  # Admin credentials
+  admin:
+    existingSecret: keycloak-admin
+    secretKeys:
+      username: username
+      password: password
+
+  # Proxy configuration (behind nginx ingress)
+  proxy:
+    mode: edge
+    headers: xforwarded
+
+  # Clustering
+  cache:
+    stack: kubernetes
+
+  # Feature flags
+  features:
+    enabled: []
+    disabled: []
+
+  # Extra environment variables
+  extraEnv: []
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8080
+  annotations: {}
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+  hosts:
+    - host: easychamp.com
+      paths:
+        - path: /ec-keycloak
+          pathType: Prefix
+  tls:
+    - secretName: easychamp-tls
+      hosts:
+        - easychamp.com
+
+# Resource limits
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2
+    memory: 2Gi
+
+# Liveness and readiness probes
+livenessProbe:
+  httpGet:
+    path: /health/live
+    port: http
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  timeoutSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+# Horizontal Pod Autoscaler
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# Additional volumes
+volumes: []
+
+volumeMounts: []
+
+# Node selection
+nodeSelector: {}
+
+tolerations:
+  - key: workload
+    operator: Equal
+    value: user
+    effect: NoSchedule
+
+affinity: {}
+
+# Init containers for realm import
+initContainers: []
+
+# Extra containers
+extraContainers: []

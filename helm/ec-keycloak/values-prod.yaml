@@ -1,0 +1,72 @@
+# Production values for ec-keycloak
+
+replicaCount: 2
+
+image:
+  tag: "latest"  # Override with specific version in CI/CD
+
+keycloak:
+  database:
+    host: "keycloak-db.ec-keycloak.svc.cluster.local"
+    port: 5432
+    database: keycloak
+
+  # Production proxy settings
+  proxy:
+    mode: edge
+    headers: xforwarded
+
+  # Extra environment variables for production
+  extraEnv:
+    - name: KC_HOSTNAME
+      value: "easychamp.com"
+    - name: KC_HOSTNAME_PATH
+      value: "/ec-keycloak"
+    - name: KC_HOSTNAME_STRICT
+      value: "false"
+    - name: KC_HTTP_RELATIVE_PATH
+      value: "/ec-keycloak"
+    - name: KC_LOG_LEVEL
+      value: "INFO"
+    - name: JAVA_OPTS_APPEND
+      value: "-Djgroups.dns.query=ec-keycloak-headless.ec-keycloak.svc.cluster.local"
+
+# Production resource limits
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2
+    memory: 2Gi
+
+# Ingress with TLS
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: easychamp.com
+      paths:
+        - path: /ec-keycloak
+          pathType: Prefix
+  tls:
+    - secretName: easychamp-tls
+      hosts:
+        - easychamp.com
+
+# Production autoscaling
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+# Pod disruption budget for HA
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1

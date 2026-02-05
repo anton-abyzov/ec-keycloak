@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker
+docker/.env
+
+# Helm
+helm/ec-keycloak/charts/
+*.tgz
+
+# Secrets (never commit)
+*.pem
+*.key
+*.crt
+secrets/

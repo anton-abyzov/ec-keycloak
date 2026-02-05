@@ -1,0 +1,17 @@
+apiVersion: v2
+name: ec-keycloak
+description: Keycloak deployment for EasyChamp platform
+type: application
+version: 0.1.0
+appVersion: "26.0"
+
+keywords:
+  - keycloak
+  - authentication
+  - oauth
+  - oidc
+  - identity
+
+maintainers:
+  - name: EasyChamp Team
+    email: dev@easychamp.com
