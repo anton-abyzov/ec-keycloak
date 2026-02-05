@@ -35,6 +35,9 @@ COPY docker/themes/easychamp /opt/keycloak/themes/easychamp
 # Copy Java extensions from builder stage
 COPY --from=java-builder /build/aspnet-identity-hash-provider/target/*.jar /opt/keycloak/providers/
 
+# Disable theme caching during build to ensure fresh themes are compiled
+ENV KC_SPI_THEME_CACHE_THEMES=false
+
 # Build optimized Keycloak with extensions and scripts feature
 RUN /opt/keycloak/bin/kc.sh build --features=scripts
 
