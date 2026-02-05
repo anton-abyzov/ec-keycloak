@@ -78,7 +78,9 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
         // Check if user has legacy password hash attribute
         String legacyHash = user.getFirstAttribute(LEGACY_HASH_ATTRIBUTE);
         boolean configured = legacyHash != null && !legacyHash.isEmpty();
-        LOG.info("[ASP.NET SPI] isConfiguredFor user=" + user.getUsername() + " configured=" + configured);
+        if (configured) {
+            LOG.info("[ASP.NET SPI] Legacy hash found for user: " + user.getUsername());
+        }
         return configured;
     }
 
@@ -103,8 +105,6 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
         if (password == null) {
             return false;
         }
-
-        LOG.info("[ASP.NET SPI] isValid called for user=" + user.getUsername() + " hashLength=" + legacyHash.length());
 
         try {
             boolean valid = verifyAspNetIdentityHash(password, legacyHash);
@@ -140,7 +140,7 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
         try {
             decoded = Base64.getDecoder().decode(storedHash);
         } catch (IllegalArgumentException e) {
-            LOG.warning("[ASP.NET SPI] Invalid Base64 in legacy hash");
+            LOG.warning("Invalid Base64 in legacy hash");
             return false;
         }
 
@@ -187,7 +187,7 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
         byte[] storedKey = new byte[subkeyLength];
         System.arraycopy(decoded, HEADER_SIZE + saltLength, storedKey, 0, subkeyLength);
 
-        LOG.info("[ASP.NET SPI] Hash params - PRF: " + algorithm + ", iterations: " + iterations
+        LOG.fine("[ASP.NET SPI] Hash params - PRF: " + algorithm + ", iterations: " + iterations
             + ", saltLen: " + saltLength + ", subkeyLen: " + subkeyLength);
 
         // Compute PBKDF2 with parameters from the hash
