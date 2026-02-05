@@ -23,12 +23,14 @@ import java.util.logging.Logger;
 /**
  * Keycloak Credential Provider for ASP.NET Core Identity v3 password hashes.
  *
- * ASP.NET Core Identity v3 Format:
- * - Algorithm: PBKDF2 with HMAC-SHA256
- * - Iterations: 10,000
- * - Salt: 16 bytes (128 bits)
- * - Derived Key: 32 bytes (256 bits)
- * - Storage Format: Base64(0x01 + salt[16] + derivedKey[32])
+ * ASP.NET Core Identity PasswordHasherV3 Format (61 bytes for default config):
+ * - Format marker: 0x01 (1 byte)
+ * - PRF algorithm: 4 bytes big-endian (0=SHA1, 1=SHA256, 2=SHA512)
+ * - Iteration count: 4 bytes big-endian (default: 100,000 for v3)
+ * - Salt length: 4 bytes big-endian (default: 16)
+ * - Salt: variable (default 16 bytes)
+ * - Subkey: variable (default 32 bytes)
+ * - Storage: Base64(0x01 + prf[4] + iterations[4] + saltLen[4] + salt[N] + subkey[N])
  *
  * This provider:
  * 1. Checks if user has 'legacyPasswordHash' attribute
@@ -45,10 +47,12 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
 
     // ASP.NET Identity v3 constants
     private static final int FORMAT_MARKER = 0x01;
-    private static final int SALT_SIZE = 16;
-    private static final int KEY_SIZE = 32;
-    private static final int ITERATIONS = 10000;
-    private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA256";
+    private static final int HEADER_SIZE = 13; // 1 marker + 4 prf + 4 iterations + 4 saltLength
+
+    // PRF algorithm mapping (from ASP.NET KeyDerivationPrf enum)
+    private static final int PRF_SHA1 = 0;
+    private static final int PRF_SHA256 = 1;
+    private static final int PRF_SHA512 = 2;
 
     private final KeycloakSession session;
 
@@ -121,9 +125,9 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
     }
 
     /**
-     * Verify password against ASP.NET Core Identity v3 hash format.
+     * Verify password against ASP.NET Core Identity PasswordHasherV3 format.
      *
-     * Format: Base64(0x01 + salt[16] + derivedKey[32])
+     * Format: Base64(0x01 + prf[4] + iterations[4] + saltLen[4] + salt[N] + subkey[N])
      */
     private boolean verifyAspNetIdentityHash(String password, String storedHash)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -136,9 +140,9 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
             return false;
         }
 
-        // Validate format: 1 byte marker + 16 bytes salt + 32 bytes key = 49 bytes
-        if (decoded.length != 1 + SALT_SIZE + KEY_SIZE) {
-            LOG.warning("Invalid hash length: " + decoded.length + " (expected 49)");
+        // Minimum: 13 bytes header + at least 1 byte salt + 1 byte key
+        if (decoded.length < HEADER_SIZE + 2) {
+            LOG.warning("Hash too short: " + decoded.length + " bytes (minimum " + (HEADER_SIZE + 2) + ")");
             return false;
         }
 
@@ -148,27 +152,75 @@ public class AspNetIdentityHashProvider implements CredentialProvider<PasswordCr
             return false;
         }
 
-        // Extract salt (bytes 1-16)
-        byte[] salt = new byte[SALT_SIZE];
-        System.arraycopy(decoded, 1, salt, 0, SALT_SIZE);
+        // Read PRF algorithm (bytes 1-4, big-endian)
+        int prf = readNetworkByteOrder(decoded, 1);
+        String algorithm = getPbkdf2Algorithm(prf);
+        if (algorithm == null) {
+            LOG.warning("Unsupported PRF algorithm: " + prf);
+            return false;
+        }
 
-        // Extract stored derived key (bytes 17-48)
-        byte[] storedKey = new byte[KEY_SIZE];
-        System.arraycopy(decoded, 1 + SALT_SIZE, storedKey, 0, KEY_SIZE);
+        // Read iteration count (bytes 5-8, big-endian)
+        int iterations = readNetworkByteOrder(decoded, 5);
+        if (iterations <= 0) {
+            LOG.warning("Invalid iteration count: " + iterations);
+            return false;
+        }
 
-        // Compute PBKDF2 with same parameters
+        // Read salt length (bytes 9-12, big-endian)
+        int saltLength = readNetworkByteOrder(decoded, 9);
+        if (saltLength < 0 || decoded.length < HEADER_SIZE + saltLength) {
+            LOG.warning("Invalid salt length: " + saltLength);
+            return false;
+        }
+
+        // Extract salt
+        byte[] salt = new byte[saltLength];
+        System.arraycopy(decoded, HEADER_SIZE, salt, 0, saltLength);
+
+        // Extract stored subkey (everything after salt)
+        int subkeyLength = decoded.length - HEADER_SIZE - saltLength;
+        byte[] storedKey = new byte[subkeyLength];
+        System.arraycopy(decoded, HEADER_SIZE + saltLength, storedKey, 0, subkeyLength);
+
+        LOG.fine("Hash params - PRF: " + algorithm + ", iterations: " + iterations
+            + ", saltLen: " + saltLength + ", subkeyLen: " + subkeyLength);
+
+        // Compute PBKDF2 with parameters from the hash
         PBEKeySpec spec = new PBEKeySpec(
             password.toCharArray(),
             salt,
-            ITERATIONS,
-            KEY_SIZE * 8 // bit length
+            iterations,
+            subkeyLength * 8 // bit length
         );
 
-        SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(algorithm);
         byte[] computedKey = factory.generateSecret(spec).getEncoded();
 
         // Constant-time comparison to prevent timing attacks
         return MessageDigest.isEqual(computedKey, storedKey);
+    }
+
+    /**
+     * Read a 4-byte big-endian (network byte order) integer.
+     */
+    private static int readNetworkByteOrder(byte[] buffer, int offset) {
+        return ((buffer[offset] & 0xFF) << 24)
+             | ((buffer[offset + 1] & 0xFF) << 16)
+             | ((buffer[offset + 2] & 0xFF) << 8)
+             | (buffer[offset + 3] & 0xFF);
+    }
+
+    /**
+     * Map ASP.NET KeyDerivationPrf enum value to Java PBKDF2 algorithm name.
+     */
+    private static String getPbkdf2Algorithm(int prf) {
+        switch (prf) {
+            case PRF_SHA1:   return "PBKDF2WithHmacSHA1";
+            case PRF_SHA256: return "PBKDF2WithHmacSHA256";
+            case PRF_SHA512: return "PBKDF2WithHmacSHA512";
+            default:         return null;
+        }
     }
 
     /**
