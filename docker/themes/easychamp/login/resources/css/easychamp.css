@@ -102,7 +102,7 @@ body.login-pf,
    HEADER / LOGO
    ============================================================================ */
 #kc-header {
-  padding: 20px 0 30px 0;
+  padding: 30px 0 10px 0;
 }
 
 #kc-header-wrapper {
@@ -112,6 +112,36 @@ body.login-pf,
   color: var(--ec-text-primary);
   line-height: 39px;
   text-align: center;
+}
+
+/* Hide default Keycloak logo class if somehow still present */
+.kc-logo-text::before,
+.kc-logo-text::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* EasyChamp brand header */
+.ec-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ec-brand .ec-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.ec-brand .ec-brand-text {
+  font-family: "Gilroy-ExtraBold", "Inter", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ec-text-primary);
+  letter-spacing: -0.5px;
 }
 
 /* ============================================================================
