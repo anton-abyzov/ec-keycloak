@@ -249,8 +249,8 @@ input[type="password"]:focus {
   padding-right: 48px !important;
 }
 
-/* Password visibility toggle */
-.pf-c-button.pf-m-control {
+/* Password visibility toggle (scoped to input group only) */
+.pf-c-input-group .pf-c-button.pf-m-control {
   position: absolute !important;
   right: 4px !important;
   top: 50% !important;
@@ -263,8 +263,16 @@ input[type="password"]:focus {
   z-index: 2;
 }
 
-.pf-c-button.pf-m-control:hover {
+.pf-c-input-group .pf-c-button.pf-m-control:hover {
   color: var(--ec-primary) !important;
+}
+
+/* Reset social buttons that share .pf-c-button.pf-m-control */
+#kc-social-providers .pf-c-button.pf-m-control {
+  position: static !important;
+  transform: none !important;
+  right: auto !important;
+  top: auto !important;
 }
 
 /* ============================================================================
