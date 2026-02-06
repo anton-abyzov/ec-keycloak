@@ -370,8 +370,14 @@ input[type="checkbox"] {
    ============================================================================ */
 #kc-social-providers {
   padding: 0 48px 32px 48px;
-  border-top: 1px solid var(--ec-border-light);
+  border-top: none;
   margin-top: 0;
+}
+
+/* Hide the <hr> inside social section - we use our own divider */
+#kc-social-providers hr,
+.kc-social-section hr {
+  display: none !important;
 }
 
 .kc-social-section-text,
@@ -661,7 +667,13 @@ button.btn-default {
   text-align: center;
   color: var(--ec-text-muted);
   font-size: 12px;
-  padding: 16px 0;
+  padding: 0 !important;
+  background: transparent !important;
+  margin: 0 !important;
+}
+
+#kc-info {
+  margin: 0 !important;
 }
 
 /* ============================================================================
