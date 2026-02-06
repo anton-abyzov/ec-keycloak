@@ -59,6 +59,9 @@ autoscaling:
   maxReplicas: 5
   targetCPUUtilizationPercentage: 70
 
+podAnnotations:
+  kubectl.kubernetes.io/restartedAt: "2026-02-06T00:20:00Z"
+
 podDisruptionBudget:
   enabled: true
   minAvailable: 1
