@@ -91,6 +91,9 @@ spec:
             - name: https
               containerPort: 8443
               protocol: TCP
+            - name: management
+              containerPort: 9000
+              protocol: TCP
             - name: jgroups
               containerPort: 7800
               protocol: TCP
