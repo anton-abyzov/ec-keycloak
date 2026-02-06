@@ -25,6 +25,8 @@ keycloak:
       value: "INFO"
     - name: JAVA_OPTS_APPEND
       value: "-Djgroups.dns.query=ec-keycloak-headless.ec-keycloak.svc.cluster.local"
+    - name: KC_SPI_THEME_STATIC_MAX_AGE
+      value: "-1"
 
 resources:
   requests:
@@ -60,7 +62,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
 
 podAnnotations:
-  kubectl.kubernetes.io/restartedAt: "2026-02-06T07:50:00Z"
+  kubectl.kubernetes.io/restartedAt: "2026-02-06T08:00:00Z"
 
 podDisruptionBudget:
   enabled: true
