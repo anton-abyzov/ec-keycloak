@@ -1,0 +1,13 @@
+[2026-02-05T17:52:35Z] Stop-sync started
+[2026-02-05T17:52:35Z] No pending events to sync
+[2026-02-06T01:59:47Z] Stop-sync started
+[2026-02-06T01:59:47Z] Processing pending.jsonl...
+[2026-02-06T01:59:47Z] Queued for sync: 0010-keycloak-migration
+[2026-02-06T01:59:47Z] Syncing increment: 0010-keycloak-migration
+[2026-02-06T01:59:47Z] Sync succeeded: 0010-keycloak-migration
+[2026-02-06T01:59:47Z] Cleared pending.jsonl
+[2026-02-06T01:59:47Z] Sync complete: 1 succeeded, 0 failed
+[2026-02-07T06:11:06Z] Stop-sync started
+[2026-02-07T06:11:06Z] No pending events to sync
+[2026-02-07T20:05:49Z] Stop-sync started
+[2026-02-07T20:05:49Z] No pending events to sync

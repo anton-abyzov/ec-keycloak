@@ -1,0 +1,7 @@
+[2026-02-05 20:59:47] project-bridge-handler: increment.sync 0010-keycloak-migration
+[project-bridge] Processing: increment.sync 0010-keycloak-migration
+Initializing ProjectService...
+ProjectService initialized
+Processing increment event: increment.sync for 0010-keycloak-migration
+No project found for increment 0010-keycloak-migration
+[project-bridge] Successfully bridged: increment.sync

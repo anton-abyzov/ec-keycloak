@@ -1,0 +1,9 @@
+[2026-02-05 16:47:47] tdd-enforcement-guard invoked: FILE_PATH=/Users/antonabyzov/Projects/sw-easychamp/.specweave/increments/0010-keycloak-migration/tasks.md TOOL_NAME=Edit
+[2026-02-05 16:47:47] testMode detected: test-after
+[2026-02-05 16:47:47] testMode is not TDD (test-after), skipping enforcement
+[2026-02-05 16:47:53] tdd-enforcement-guard invoked: FILE_PATH=/Users/antonabyzov/Projects/sw-easychamp/.specweave/increments/0010-keycloak-migration/tasks.md TOOL_NAME=Edit
+[2026-02-05 16:47:53] testMode detected: test-after
+[2026-02-05 16:47:53] testMode is not TDD (test-after), skipping enforcement
+[2026-02-05 16:48:06] tdd-enforcement-guard invoked: FILE_PATH=/Users/antonabyzov/Projects/sw-easychamp/.specweave/increments/0010-keycloak-migration/tasks.md TOOL_NAME=Edit
+[2026-02-05 16:48:06] testMode detected: test-after
+[2026-02-05 16:48:06] testMode is not TDD (test-after), skipping enforcement

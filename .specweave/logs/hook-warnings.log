@@ -1,0 +1,6 @@
+[2026-02-05 16:47:47] BACKGROUND ERROR [dashboard-cache]: exit 127
+  Output: bash: /Users/antonabyzov/Projects/sw-easychamp/repositories/ec-keycloak/plugins/specweave/scripts/rebuild-dashboard-cache.sh: No such file or directory
+[2026-02-05 16:47:53] BACKGROUND ERROR [dashboard-cache]: exit 127
+  Output: bash: /Users/antonabyzov/Projects/sw-easychamp/repositories/ec-keycloak/plugins/specweave/scripts/rebuild-dashboard-cache.sh: No such file or directory
+[2026-02-05 16:48:06] BACKGROUND ERROR [dashboard-cache]: exit 127
+  Output: bash: /Users/antonabyzov/Projects/sw-easychamp/repositories/ec-keycloak/plugins/specweave/scripts/rebuild-dashboard-cache.sh: No such file or directory

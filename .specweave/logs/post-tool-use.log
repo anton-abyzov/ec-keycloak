@@ -1,0 +1,18 @@
+[2026-02-05 16:47:47] [post-tool-use] Processing: /Users/antonabyzov/Projects/sw-easychamp/.specweave/increments/0010-keycloak-migration/tasks.md (increment: 0010-keycloak-migration)
+[2026-02-05 16:47:47] [post-tool-use] Tasks/spec change detected
+[2026-02-05 16:47:47] [post-tool-use] Running task-ac-sync guard
+[2026-02-05 16:47:47] [post-tool-use] Running TDD enforcement guard (warn mode - background)
+[2026-02-05 16:47:47] [post-tool-use] Sound disabled (set SPECWEAVE_SOUND_ENABLED=1 to enable)
+[2026-02-05 16:47:47] [post-tool-use] Dispatcher completed successfully
+[2026-02-05 16:47:53] [post-tool-use] Processing: /Users/antonabyzov/Projects/sw-easychamp/.specweave/increments/0010-keycloak-migration/tasks.md (increment: 0010-keycloak-migration)
+[2026-02-05 16:47:53] [post-tool-use] Tasks/spec change detected
+[2026-02-05 16:47:53] [post-tool-use] Running task-ac-sync guard
+[2026-02-05 16:47:53] [post-tool-use] Running TDD enforcement guard (warn mode - background)
+[2026-02-05 16:47:53] [post-tool-use] Sound disabled (set SPECWEAVE_SOUND_ENABLED=1 to enable)
+[2026-02-05 16:47:53] [post-tool-use] Dispatcher completed successfully
+[2026-02-05 16:48:06] [post-tool-use] Processing: /Users/antonabyzov/Projects/sw-easychamp/.specweave/increments/0010-keycloak-migration/tasks.md (increment: 0010-keycloak-migration)
+[2026-02-05 16:48:06] [post-tool-use] Tasks/spec change detected
+[2026-02-05 16:48:06] [post-tool-use] Running task-ac-sync guard
+[2026-02-05 16:48:06] [post-tool-use] Running TDD enforcement guard (warn mode - background)
+[2026-02-05 16:48:06] [post-tool-use] Sound disabled (set SPECWEAVE_SOUND_ENABLED=1 to enable)
+[2026-02-05 16:48:06] [post-tool-use] Dispatcher completed successfully

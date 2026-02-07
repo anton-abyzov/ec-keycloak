@@ -1,0 +1,16 @@
+{
+  "checked": "2026-02-06T01:39:17Z",
+  "status": "ok",
+  "missing": [],
+  "warned": false,
+  "lspEnvReady": true,
+  "lspMarketplace": "claude-code-lsps",
+  "stats": {
+    "totalLanguages": 0,
+    "checkedLanguages": 0,
+    "minFileCount": 10,
+    "maxLanguages": 3,
+    "binaryMissing": 0,
+    "pluginMissing": 0
+  }
+}
