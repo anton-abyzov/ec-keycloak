@@ -137,13 +137,23 @@ html.login-pf,
   border: 1px solid var(--ec-border) !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03) !important;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 0 auto 32px auto;
+  position: relative;
 }
 
 /* Remove default blue top border */
 .card-pf::before,
 .card-pf::after {
   display: none !important;
+}
+
+/* Ensure registration section at bottom has rounded corners */
+.card-pf #kc-info,
+.card-pf #kc-registration,
+.card-pf .login-pf-signup {
+  border-bottom-left-radius: var(--ec-border-radius-card);
+  border-bottom-right-radius: var(--ec-border-radius-card);
+  overflow: hidden;
 }
 
 /* Header section inside card */
@@ -453,6 +463,8 @@ input[type="checkbox"] {
   font-size: 14px !important;
   color: var(--ec-text-tertiary) !important;
   font-family: "Inter", sans-serif !important;
+  margin: 0 !important;
+  border-bottom: none !important;
 }
 
 #kc-info a,
@@ -670,15 +682,31 @@ button.btn-default {
   padding: 0 !important;
   background: transparent !important;
   margin: 0 !important;
+  border: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
 }
 
 #kc-info {
   margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
 /* ============================================================================
    PATTERNFLY OVERRIDES
    ============================================================================ */
+
+/* Hide any stray HR elements from parent theme */
+hr {
+  display: none !important;
+}
+
+/* Allow HR in specific contexts if needed */
+#kc-terms-text hr,
+.alert hr {
+  display: block !important;
+}
 
 /* Reset PatternFly backgrounds */
 .pf-c-login,
