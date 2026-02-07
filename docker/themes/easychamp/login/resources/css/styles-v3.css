@@ -92,6 +92,18 @@ html.login-pf,
   padding: 0 20px;
 }
 
+/* Ensure no extra spacing or lines below the card */
+.login-pf-page::after,
+body.login-pf::after {
+  display: none !important;
+}
+
+/* Remove any default margins/padding from body */
+body.login-pf {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 /* ============================================================================
    HEADER / LOGO
    ============================================================================ */
@@ -455,16 +467,23 @@ input[type="checkbox"] {
    ============================================================================ */
 #kc-info,
 #kc-registration,
-.login-pf-signup {
-  text-align: center;
+.login-pf-signup,
+#kc-registration-container {
+  text-align: center !important;
   padding: 20px 48px 24px 48px !important;
-  background: #F9FAFB;
-  border-top: 1px solid var(--ec-border-light);
+  background: #F9FAFB !important;
+  background-color: #F9FAFB !important;
+  border-top: 1px solid var(--ec-border-light) !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
   font-size: 14px !important;
   color: var(--ec-text-tertiary) !important;
   font-family: "Inter", sans-serif !important;
   margin: 0 !important;
-  border-bottom: none !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
 }
 
 #kc-info a,
@@ -698,14 +717,30 @@ button.btn-default {
    ============================================================================ */
 
 /* Hide any stray HR elements from parent theme */
-hr {
+hr,
+hr.kc-divider,
+.kc-divider {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 /* Allow HR in specific contexts if needed */
 #kc-terms-text hr,
 .alert hr {
   display: block !important;
+  visibility: visible !important;
+}
+
+/* Hide any borders or dividers between sections */
+.card-pf > hr,
+#kc-content > hr,
+#kc-form-wrapper > hr,
+#kc-social-providers > hr {
+  display: none !important;
 }
 
 /* Reset PatternFly backgrounds */
