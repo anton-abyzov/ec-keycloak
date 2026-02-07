@@ -210,8 +210,7 @@ body.login-pf {
 }
 
 label,
-.pf-c-form__label,
-.pf-c-form__label-text {
+.pf-c-form__label {
   display: block;
   margin-bottom: 6px;
   font-weight: 500 !important;
@@ -219,6 +218,84 @@ label,
   color: var(--ec-text-secondary) !important;
   text-align: left;
   font-family: "Inter", sans-serif !important;
+}
+
+/* Keep label text and required asterisk inline */
+.pf-c-form__label-text {
+  display: inline !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: var(--ec-text-secondary) !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Required field asterisk - inline next to label */
+.pf-c-form__label-required {
+  display: inline !important;
+  color: var(--ec-error) !important;
+  margin-left: 2px;
+  font-weight: 500;
+}
+
+/* ============================================================================
+   SELECT / DROPDOWN FIELDS
+   ============================================================================ */
+select,
+select.pf-c-form-control,
+select.form-control {
+  width: 100% !important;
+  height: var(--ec-input-height) !important;
+  background-color: var(--ec-input-bg) !important;
+  border: 1.5px solid transparent !important;
+  border-radius: var(--ec-border-radius) !important;
+  padding: 0 16px !important;
+  color: var(--ec-text-primary) !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  box-sizing: border-box !important;
+  transition: all 0.15s ease !important;
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+}
+
+select:focus,
+select.pf-c-form-control:focus {
+  background-color: var(--ec-card-bg) !important;
+  border-color: var(--ec-primary) !important;
+  box-shadow: 0 0 0 3px var(--ec-primary-light) !important;
+}
+
+/* ============================================================================
+   DATE INPUT FIELDS
+   ============================================================================ */
+input[type="date"],
+input[type="date"].pf-c-form-control {
+  width: 100% !important;
+  height: var(--ec-input-height) !important;
+  background-color: var(--ec-input-bg) !important;
+  border: 1.5px solid transparent !important;
+  border-radius: var(--ec-border-radius) !important;
+  padding: 0 16px !important;
+  color: var(--ec-text-primary) !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  box-sizing: border-box !important;
+  transition: all 0.15s ease !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="date"]:focus,
+input[type="date"].pf-c-form-control:focus {
+  background-color: var(--ec-card-bg) !important;
+  border-color: var(--ec-primary) !important;
+  box-shadow: 0 0 0 3px var(--ec-primary-light) !important;
 }
 
 /* ============================================================================
