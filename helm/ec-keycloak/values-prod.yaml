@@ -22,7 +22,7 @@ keycloak:
     - name: KC_HOSTNAME_STRICT
       value: "false"
     - name: KC_LOG_LEVEL
-      value: "INFO"
+      value: "INFO,org.keycloak.broker:DEBUG,org.keycloak.authentication:DEBUG,org.keycloak.services.managers:DEBUG,org.keycloak.protocol.oidc:DEBUG"
     - name: JAVA_OPTS_APPEND
       value: "-Djgroups.dns.query=ec-keycloak-headless.ec-keycloak.svc.cluster.local"
     - name: KC_SPI_THEME_STATIC_MAX_AGE
