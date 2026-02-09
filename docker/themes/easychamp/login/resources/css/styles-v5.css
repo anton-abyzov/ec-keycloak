@@ -547,20 +547,25 @@ input[type="checkbox"] {
 .login-pf-signup,
 #kc-registration-container {
   text-align: center !important;
-  padding: 20px 48px 24px 48px !important;
-  background: #F9FAFB !important;
-  background-color: #F9FAFB !important;
-  border-top: 1px solid var(--ec-border-light) !important;
-  border-bottom: none !important;
-  border-left: none !important;
-  border-right: none !important;
+  padding: 0 48px 32px 48px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
   font-size: 14px !important;
   color: var(--ec-text-tertiary) !important;
   font-family: "Inter", sans-serif !important;
   margin: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
   box-shadow: none !important;
+}
+
+/* Short centered divider above registration/info section */
+#kc-info-wrapper::before {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--ec-border-light);
+  margin: 0 auto 20px auto;
 }
 
 #kc-info a,
@@ -569,11 +574,17 @@ input[type="checkbox"] {
   color: var(--ec-link) !important;
   font-weight: 600 !important;
   text-decoration: none !important;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: all 0.2s ease !important;
+  display: inline-block;
 }
 
 #kc-info a:hover,
 #kc-registration a:hover {
-  text-decoration: underline !important;
+  text-decoration: none !important;
+  background: var(--ec-primary-light);
+  color: var(--ec-primary-dark) !important;
 }
 
 /* ============================================================================
@@ -774,8 +785,8 @@ button.btn-default {
 #kc-info-wrapper {
   text-align: center;
   color: var(--ec-text-muted);
-  font-size: 12px;
-  padding: 0 !important;
+  font-size: 14px;
+  padding: 4px 0 0 0 !important;
   background: transparent !important;
   margin: 0 !important;
   border: none !important;
@@ -787,6 +798,15 @@ button.btn-default {
   margin: 0 !important;
   padding: 0 !important;
   background: transparent !important;
+}
+
+/* "New user?" text styling */
+#kc-registration span,
+#kc-info-wrapper span {
+  color: var(--ec-text-tertiary);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 /* ============================================================================
@@ -863,7 +883,7 @@ hr.kc-divider,
   #kc-info,
   #kc-registration,
   .login-pf-signup {
-    padding: 16px 24px 20px 24px !important;
+    padding: 0 24px 24px 24px !important;
   }
 
   #kc-header-wrapper,
