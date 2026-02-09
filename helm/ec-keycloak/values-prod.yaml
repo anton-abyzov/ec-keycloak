@@ -62,7 +62,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
 
 podAnnotations:
-  kubectl.kubernetes.io/restartedAt: "2026-02-06T08:00:00Z"
+  kubectl.kubernetes.io/restartedAt: "2026-02-09T22:30:00Z"
 
 podDisruptionBudget:
   enabled: true
